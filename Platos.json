@@ -1,0 +1,108 @@
+{
+    "platos": [
+        {
+            "nombre": "Charquekan",
+            "precio": 35
+        },
+        {
+            "nombre": "Papas a la Huancaina",
+            "precio": 20
+        },
+        {
+            "nombre": "Majadito",
+            "precio": 25
+        },
+        {
+            "nombre": "Pique Macho",
+            "precio": 40
+        },
+        {
+            "nombre": "Hamburguesa",
+            "precio": 18
+        },
+        {
+            "nombre": "Silpancho",
+            "precio": 28
+        },
+        {
+            "nombre": "Plato Paceño",
+            "precio": 30
+        },
+        {
+            "nombre": "Sajta",
+            "precio": 27
+        },
+        {
+            "nombre": "Milanesa de Pollo",
+            "precio": 32
+        },
+        {
+            "nombre": "Ramen",
+            "precio": 45
+        },
+        {
+            "nombre": "Pollo al Horno",
+            "precio": 33
+        },
+        {
+            "nombre": "Salchipapa",
+            "precio": 15
+        },
+        {
+            "nombre": "Calamar",
+            "precio": 60
+        },
+        {
+            "nombre": "Chicharon de Pollo",
+            "precio": 28
+        },
+        {
+            "nombre": "Asado",
+            "precio": 55
+        },
+        {
+            "nombre": "Chicharon de Cerdo",
+            "precio": 40
+        },
+        {
+            "nombre": "Ispi",
+            "precio": 22
+        },
+        {
+            "nombre": "Chairo",
+            "precio": 18
+        },
+        {
+            "nombre": "Pure de Papa",
+            "precio": 12
+        },
+        {
+            "nombre": "Aji de Fideo",
+            "precio": 20
+        },
+        {
+            "nombre": "Sushi 1",
+            "precio": 55
+        },
+        {
+            "nombre": "Sushi 2",
+            "precio": 75
+        },
+        {
+            "nombre": "Aji de Racacha",
+            "precio": 15
+        },
+        {
+            "nombre": "Biffe",
+            "precio": 45
+        },
+        {
+            "nombre": "Salmon",
+            "precio": 70
+        },
+        {
+            "nombre": "Silpancho Cochabambino",
+            "precio": 35
+        }
+    ]
+}
