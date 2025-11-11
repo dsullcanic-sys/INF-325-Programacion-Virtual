@@ -1,0 +1,96 @@
+Ejercicio Extra: "Búsqueda de platos de menú desde GitHub"
+
+Objetivo:
+
+  Crear una app Android que muestre 26 platos en una tabla, y al buscar por nombre, muestre el plato con su imagen.
+
+Parte 1: Preparar datos en GitHub
+
+  1. Crear repositorio público en GitHub
+  2. Crear carpeta: PlatosDBOnline/
+  3. Crear archivo Platos.json dentro de esa carpeta:
+    {
+      "platos": [
+        {"nombre": "Charquekan", "precio": 35, "imagen": "URL_IMAGEN"},
+        {"nombre": "Papas a la Huancaina", "precio": 20, "imagen": "URL_IMAGEN"},
+        {"nombre": "Majadito", "precio": 25, "imagen": "URL_IMAGEN"}
+        // ... 26 platos en total
+      ]
+    }
+
+
+  4. (Opcional)Subir 26 imágenes de platos (`p01.jpeg` - `p26.jpeg`)
+  5. URL resultante:
+
+    https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/PlatosDBOnline/Platos.json
+
+
+Parte 2: Configurar la app Android
+
+  A. Permisos AndroidManifest.xml
+
+  Agregar:
+
+      <uses-permission android:name="android.permission.INTERNET"/>
+
+  Y dentro de <application> :
+
+  android:networkSecurityConfig="@xml/network_security_config"
+
+  B. Archivo de seguridad res/xml/network_security_config.xml
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <network-security-config>
+        <domain-config cleartextTrafficPermitted="true">
+            <domain includeSubdomains="true">githubusercontent.com</domain>
+        </domain-config>
+    </network-security-config>
+
+
+  C. Dependencia para imágenes build.gradle
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+  Parte 3: Funcionalidad
+
+  Vista inicial:
+
+  - Tabla con Nombre y Precio de los 26 platos
+  - Sin imágenes
+
+  Al buscar:
+
+  - Campo de texto para escribir nombre del plato
+  - Botón "Buscar"
+  - Si encuentra: muestra tarjeta con imagen grande + nombre + precio
+  - Si no encuentra: mensaje "No encontrado"
+  - Si borra búsqueda: vuelve a tabla completa
+
+  Lista de 26 platos:
+
+  1. Charquekan - 35 Bs
+  2. Papas a la Huancaina - 20 Bs
+  3. Majadito - 25 Bs
+  4. Pique Macho - 40 Bs
+  5. Hamburguesa - 18 Bs
+  6. Silpancho - 28 Bs
+  7. Plato Paceño - 30 Bs
+  8. Sajta - 27 Bs
+  9. Milanesa de Pollo - 32 Bs
+  10. Ramen - 45 Bs
+  11. Pollo al Horno - 33 Bs
+  12. Salchipapa - 15 Bs
+  13. Calamar - 60 Bs
+  14. Chicharon de Pollo - 28 Bs
+  15. Asado - 55 Bs
+  16. Chicharon de Cerdo - 40 Bs
+  17. Ispi - 22 Bs
+  18. Chairo - 18 Bs
+  19. Pure de Papa - 12 Bs
+  20. Aji de Fideo - 20 Bs
+  21. Sushi 1 - 55 Bs
+  22. Sushi 2 - 75 Bs
+  23. Aji de Racacha - 15 Bs
+  24. Biffe - 45 Bs
+  25. Salmon - 70 Bs
+  26. Silpancho Cochabambino - 35 Bs

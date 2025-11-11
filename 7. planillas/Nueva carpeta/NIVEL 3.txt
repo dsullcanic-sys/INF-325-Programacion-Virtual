@@ -1,0 +1,432 @@
+package com.ryuk.kardex
+
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import android.net.Uri
+import android.widget.EditText
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.util.TypedValue
+import android.graphics.Typeface
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var btnCargar: Button
+    private lateinit var txtInfo: TextView
+    private lateinit var inputCarnet: EditText
+    private lateinit var btnBuscar: Button
+    private lateinit var tabla: TableLayout
+
+    private lateinit var notasDocentes: Map<String, List<Registro>>
+
+    private val materias = mutableListOf<Materia>()
+    private val periodos = mutableListOf<Periodo>()
+    private val docentes = mutableListOf<Docente>()
+    private val estudiantes = mutableListOf<Estudiante>()
+    private val kardex = mutableListOf<Kardex>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_main)
+
+        btnCargar = findViewById(R.id.btnCargar)
+        txtInfo = findViewById(R.id.txtInfo)
+        inputCarnet = findViewById(R.id.inputCarnet)
+        btnBuscar = findViewById(R.id.btnBuscar)
+        tabla = findViewById(R.id.tabla)
+
+        btnCargar.setOnClickListener { seleccionarArchivos() }
+        btnBuscar.setOnClickListener { buscar() }
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val barras = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(barras.left, barras.top, barras.right, barras.bottom)
+            insets
+        }
+    }
+
+    private val selector = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { resultado ->
+        if (resultado.resultCode == Activity.RESULT_OK) {
+            resultado.data?.let { data ->
+                if (data.clipData != null) {
+                    for (i in 0 until data.clipData!!.itemCount) {
+                        leerArchivo(data.clipData!!.getItemAt(i).uri)
+                    }
+                } else if (data.data != null) {
+                    leerArchivo(data.data!!)
+                }
+            }
+            enlazar()
+            txtInfo.text = "Archivos cargados: ${docentes.size} docentes"
+        }
+    }
+
+    private fun seleccionarArchivos() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            type = "text/*"
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        }
+        selector.launch(intent)
+    }
+
+    private fun leerArchivo(uri: Uri) {
+        try {
+            val nombre = obtenerNombre(uri)
+            contentResolver.openInputStream(uri)
+                ?.bufferedReader(charset("Windows-1252"))
+                ?.useLines { lineas ->
+                    lineas.drop(1).forEach { procesarLinea(it, nombre) }
+                }
+        } catch (e: Exception) {
+            txtInfo.text = "Error: ${e.message}"
+        }
+    }
+
+    private fun obtenerNombre(uri: Uri): String {
+        contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val indice = cursor.getColumnIndex("_display_name")
+                if (indice != -1) return cursor.getString(indice)
+            }
+        }
+        return "desconocido"
+    }
+
+    private fun procesarLinea(linea: String, archivo: String) {
+        val partes = linea.split(';')
+
+        when(partes.size) {
+            2 -> {
+                if (archivo.contains("materias", ignoreCase = true)){
+                    materias.add(Materia(partes[0].trim(), partes[1].trim()))
+                } else if (archivo.contains("periodos", ignoreCase = true)){
+                    periodos.add(Periodo(partes[0].trim(), partes[1].trim()))
+                }
+            }
+            4 -> {
+                if (archivo.contains("estudiantes", ignoreCase = true)){
+                    estudiantes.add(
+                        Estudiante(
+                            partes[0].trim(),
+                            partes[1].trim(),
+                            partes[2].trim(),
+                            partes[3].trim()
+                        )
+                    )
+                } else if (archivo.contains("docentes", ignoreCase = true)){
+                    docentes.add(
+                        Docente(
+                            partes[0].trim(),
+                            partes[1].trim(),
+                            partes[2].trim(),
+                            partes[3].trim()
+                        )
+                    )
+                }
+            }
+            6 -> {
+                if (archivo.contains("kardex", ignoreCase = true)){
+                    kardex.add(
+                        Kardex(
+                            partes[0].trim(),
+                            partes[1].trim(),
+                            partes[2].trim(),
+                            partes[3].trim(),
+                            partes[4].trim().toInt(),
+                            partes[5].trim()
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun enlazar(){
+        val mapEstudiantes = estudiantes.associateBy { it.carnet }
+        val mapMaterias = materias.associateBy { it.sigla }
+        val mapDocentes = docentes.associateBy { it.carnet }
+        val mapPeriodos = periodos.associateBy { it.codigo }
+
+        val registros = kardex.mapNotNull { k ->
+            val est = mapEstudiantes[k.carnetEst]
+            val doc = mapDocentes[k.carnetDoc]
+            val mat = mapMaterias[k.siglaMateria]
+            val per = mapPeriodos[k.codigoPeriodo]
+
+            if (est != null && doc != null && mat != null && per != null) {
+                Registro(est.carnet, mat, doc, per, k.nota, k.obs)
+            } else null
+        }
+
+        notasDocentes = registros.groupBy { it.docente.carnet }
+    }
+
+    private fun ordenar(periodos: List<String>): List<String> {
+        return periodos.sortedWith(compareBy(
+            { it.substringAfter('-') },
+            { it.substringBefore('-') }
+        ))
+    }
+
+    private fun buscar() {
+        val carnet = inputCarnet.text.toString().trim().uppercase()
+
+        if (carnet.isEmpty()) {
+            Toast.makeText(this, "Introduce un carnet", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val registros = notasDocentes[carnet] ?: run {
+            Toast.makeText(this, "Docente no encontrado", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // CAMBIAR AQUÍ: Descomentar la query que quieras usar
+
+        // Vista por períodos:
+        porPeriodo(carnet, registros)
+
+        // Vista por años:
+        //porAnio(carnet, registros)
+    }
+
+    private fun porPeriodo(carnet: String, registros: List<Registro>) {
+        val doc = docentes.find { it.carnet == carnet }
+        val nombre = "${doc?.nombres} ${doc?.paterno}"
+
+        val porPeriodo = registros.groupBy { it.periodo.codigo }
+
+        val datos = mutableListOf(
+            listOf("PERIODO", "MAT. DICTADAS", "APROBADOS", "REPROBADOS")
+        )
+
+        var totalMat = 0
+        var totalAprob = 0
+        var totalReprob = 0
+
+        ordenar(porPeriodo.keys.toList()).forEach { periodo ->
+            val notas = porPeriodo[periodo]!!
+            val matUnicas = notas.map { it.materia.sigla }.distinct().size
+            val aprob = notas.count { it.nota >= 51 }
+            val reprob = notas.size - aprob
+
+            datos.add(listOf(periodo, matUnicas.toString(), aprob.toString(), reprob.toString()))
+
+            totalMat += matUnicas
+            totalAprob += aprob
+            totalReprob += reprob
+        }
+
+        mostrar(datos, "Carnet:\n$carnet\n\nNombres:\n$nombre\n\n# Resumen por Periodos")
+
+        txtInfo.append("\n\n# Totales Generales:")
+        txtInfo.append("\nTotal materias dictadas: $totalMat")
+        txtInfo.append("\nTotal estudiantes aprobados: $totalAprob")
+        txtInfo.append("\nTotal estudiantes reprobados: $totalReprob")
+    }
+
+    private fun porAnio(carnet: String, registros: List<Registro>) {
+        val doc = docentes.find { it.carnet == carnet }
+        val nombre = "${doc?.nombres} ${doc?.paterno}"
+
+        val porAnio = registros.groupBy { it.periodo.codigo.substringAfter('-') }
+
+        val datos = mutableListOf(
+            listOf("AÑO", "MAT. DICTADAS", "APROBS", "REPROBS")
+        )
+
+        var totalMat = 0
+        var totalAprob = 0
+        var totalReprob = 0
+
+        porAnio.keys.sorted().forEach { anio ->
+            val notas = porAnio[anio]!!
+
+            val matPorPer = notas.groupBy { it.periodo.codigo }
+            val totalMatAnio = matPorPer.values.sumOf { notasPer ->
+                notasPer.map { it.materia.sigla }.distinct().size
+            }
+
+            val aprob = notas.count { it.nota >= 51 }
+            val reprob = notas.size - aprob
+
+            datos.add(listOf(anio, totalMatAnio.toString(), aprob.toString(), reprob.toString()))
+
+            totalMat += totalMatAnio
+            totalAprob += aprob
+            totalReprob += reprob
+        }
+
+        mostrar(datos, "Carnet:\n$carnet\n\nNombres:\n$nombre\n\n# Resumen por Años")
+
+        txtInfo.append("\n\n# Totales Generales:")
+        txtInfo.append("\nTotal materias dictadas: $totalMat")
+        txtInfo.append("\nTotal estudiantes aprobados: $totalAprob")
+        txtInfo.append("\nTotal estudiantes reprobados: $totalReprob")
+    }
+
+    private fun mostrar(datos: List<List<String>>, titulo: String) {
+        tabla.removeAllViews()
+        txtInfo.text = titulo
+
+        val params = TableLayout.LayoutParams(
+            TableLayout.LayoutParams.MATCH_PARENT,
+            TableLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        val pad = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            5f,
+            resources.displayMetrics
+        ).toInt()
+
+        datos.forEachIndexed { i, fila ->
+            val row = TableRow(this).apply { layoutParams = params }
+
+            fila.forEach { celda ->
+                val txt = TextView(this).apply {
+                    text = celda
+                    setPadding(pad, pad, pad, pad)
+                    if (i == 0) setTypeface(null, Typeface.BOLD)
+                }
+                row.addView(txt)
+            }
+
+            tabla.addView(row)
+        }
+    }
+
+    data class Kardex(
+        val carnetEst: String,
+        val siglaMateria: String,
+        val carnetDoc: String,
+        val codigoPeriodo: String,
+        val nota: Int,
+        val obs: String
+    )
+
+    data class Estudiante(
+        val carnet: String,
+        val paterno: String,
+        val materno: String,
+        val nombres: String
+    )
+
+    data class Materia(
+        val sigla: String,
+        val descripcion: String
+    )
+
+    data class Docente(
+        val carnet: String,
+        val paterno: String,
+        val materno: String,
+        val nombres: String
+    )
+
+    data class Periodo(
+        val codigo: String,
+        val descripcion: String
+    )
+
+    data class Registro(
+        val carnetEst: String,
+        val materia: Materia,
+        val docente: Docente,
+        val periodo: Periodo,
+        val nota: Int,
+        val obs: String
+    )
+}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/btnCargar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="KARDEX"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Buscar Carnet (Docente):"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/inputCarnet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:hint="Carnet"
+                android:inputType="textCapCharacters"
+                android:maxLines="1" />
+
+            <Button
+                android:id="@+id/btnBuscar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="Buscar" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingBottom="8dp"
+            android:text="Esperando carga de archivos..."
+            android:textStyle="italic"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="horizontal">
+
+            <TableLayout
+                android:id="@+id/tabla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*"
+                android:paddingTop="8dp"/>
+
+        </HorizontalScrollView>
+    </LinearLayout>
+</ScrollView>

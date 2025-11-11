@@ -1,0 +1,259 @@
+Exactamente — eso es una excelente idea. Lo que estás describiendo es como construir tu **“kit base de código Android”**, un conjunto de **bloques reutilizables** que te sirvan para armar proyectos sin depender de nadie.
+
+Vamos a estructurarlo por temas, con breves explicaciones y ejemplos. Puedes guardar esto como una guía personal y copiar/pegar fragmentos según lo necesites.
+
+BLOQUES BÁSICOS ANDROID JAVA
+
+1. Seleccionar archivos con PICKER (Android 10+)
+
+Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+intent.setType("*/*"); // o text/csv, image/*, etc.
+intent.addCategory(Intent.CATEGORY_OPENABLE);
+startActivityForResult(intent, PICK_FILE_CODE);
+
+Recibir resultado:
+
+@Override
+protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == PICK_FILE_CODE && resultCode == Activity.RESULT_OK && data != null) {
+        Uri uri = data.getData();
+        // Ejemplo: leer el archivo
+        try (InputStream input = getContentResolver().openInputStream(uri)) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Log.d("ARCHIVO", line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+2. Guardar archivos (EXPORTAR con picker)
+
+Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+intent.setType("text/csv");
+intent.putExtra(Intent.EXTRA_TITLE, "archivo.csv");
+startActivityForResult(intent, EXPORT_FILE_CODE);
+
+**Escribir datos en el archivo seleccionado:**
+
+Uri uri = data.getData();
+try (OutputStream output = getContentResolver().openOutputStream(uri)) {
+    String contenido = "CODIGO;NOMBRE;MONTO\n001;Juan;500";
+    output.write(contenido.getBytes());
+    output.flush();
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+3. Mostrar mensajes o resultados
+
+// Toast (mensaje simple)
+Toast.makeText(this, "Operación completa", Toast.LENGTH_SHORT).show();
+
+// Mostrar texto multilinea
+textView.setText("Código: 1001\nNombre: Juan Pérez\nResultado: 5000");
+
+4. Leer datos de la interfaz (UI)
+
+String nombre = etNombre.getText().toString().trim();
+int codigo = Integer.parseInt(etCodigo.getText().toString());
+
+5. Consultar base de datos (SQLite con DBHelper)
+
+SQLiteDatabase db = dbHelper.getReadableDatabase();
+Cursor cursor = db.rawQuery("SELECT * FROM clientes WHERE CODPROF=?", new String[]{"10"});
+if (cursor.moveToFirst()) {
+    String nombre = cursor.getString(cursor.getColumnIndex("NOMBRE"));
+    Log.d("SQL", nombre);
+}
+cursor.close();
+
+6. Insertar o actualizar datos (SQLIte)
+
+SQLiteDatabase db = dbHelper.getWritableDatabase();
+db.execSQL("INSERT INTO departamentos (CODEPTO, DESCRIPCION) VALUES (?,?)", new Object[]{1, "COCHABAMBA"});
+
+7. Crear funciones reutilizables
+
+En Java puedes crear métodos simples dentro de cualquier clase:
+
+private void mostrarMensaje(String texto) {
+    Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
+}
+
+Llamas con:
+
+mostrarMensaje("Importación correcta");
+
+8.Validar campos vacíos
+
+if (etCodigo.getText().toString().trim().isEmpty()) {
+    Toast.makeText(this, "Ingresa un código", Toast.LENGTH_SHORT).show();
+    return;
+}
+
+9. Limpiar campos
+
+etCodigo.setText("");
+etNombre.setText("");
+
+10. Mostrar resultados formateados
+
+String texto = String.format(Locale.getDefault(), "Profesión: %s\nDepartamento: %s\nSuma: %d", prof, depto, suma);
+tvResultado.setText(texto);
+
+11. Seleccionar archivos con Picker
+
+// Lanzar el selector de archivos
+Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+intent.setType("*/*"); // Cambia a "text/csv" o "image/*" según el tipo
+intent.addCategory(Intent.CATEGORY_OPENABLE);
+startActivityForResult(intent, PICK_FILE_CODE);
+
+**Recibir el archivo seleccionado:**
+
+@Override
+protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == PICK_FILE_CODE && resultCode == Activity.RESULT_OK && data != null) {
+        Uri uri = data.getData();
+        // Leer el archivo
+        try (InputStream input = getContentResolver().openInputStream(uri)) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Log.d("ARCHIVO", line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+12. Guardar archivos (Exportar)
+
+// Lanzar el selector para crear archivo
+Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+intent.setType("text/csv");
+intent.putExtra(Intent.EXTRA_TITLE, "archivo.csv");
+startActivityForResult(intent, EXPORT_FILE_CODE);
+
+**Escribir datos en el archivo:**
+
+Uri uri = data.getData();
+try (OutputStream output = getContentResolver().openOutputStream(uri)) {
+    String contenido = "CODIGO;NOMBRE;MONTO\n001;Juan;500";
+    output.write(contenido.getBytes());
+    output.flush();
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+13. Mostrar mensajes y resultados
+
+// Mensaje simple
+Toast.makeText(this, "Operación completa", Toast.LENGTH_SHORT).show();
+
+// Mostrar texto multilinea
+textView.setText("Código: 1001\nNombre: Juan Pérez\nResultado: 5000");
+
+14. Leer datos de la interfaz
+
+String nombre = etNombre.getText().toString().trim();
+int codigo = Integer.parseInt(etCodigo.getText().toString());
+
+15. Consultar base de datos (SQLite)
+
+SQLiteDatabase db = dbHelper.getReadableDatabase();
+Cursor cursor = db.rawQuery("SELECT * FROM clientes WHERE CODPROF=?", new String[]{"10"});
+if (cursor.moveToFirst()) {
+    String nombre = cursor.getString(cursor.getColumnIndex("NOMBRE"));
+    Log.d("SQL", nombre);
+}
+cursor.close();
+
+16. Insertar datos en la base
+
+SQLiteDatabase db = dbHelper.getWritableDatabase();
+db.execSQL("INSERT INTO departamentos (CODEPTO, DESCRIPCION) VALUES (?, ?)", new Object[]{1, "COCHABAMBA"});
+
+17. Funciones reutilizables
+
+private void mostrarMensaje(String texto) {
+    Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
+}
+// Usar:
+mostrarMensaje("Importación correcta");
+
+18. Validar campos vacíos
+
+if (etCodigo.getText().toString().trim().isEmpty()) {
+    Toast.makeText(this, "Ingresa un código", Toast.LENGTH_SHORT).show();
+    return;
+}
+
+19. Limpiar campos
+
+etCodigo.setText("");
+etNombre.setText("");
+
+20. Mostrar resultados formateados
+
+String texto = String.format(Locale.getDefault(), "Profesión: %s\nDepartamento: %s\nSuma: %d", prof, depto, suma);
+tvResultado.setText(texto);
+
+21. Estructura recomendada para DBHelper y modelos
+
+public class DBHelper extends SQLiteOpenHelper {
+    // ... constructor y métodos ...
+
+    // Modelo interno
+    public static class Cliente {
+        public int carnet;
+        public String nombres;
+        public int codProf;
+        public int codDepto;
+        public Cliente(int carnet, String nombres, int codProf, int codDepto) {
+            this.carnet = carnet;
+            this.nombres = nombres;
+            this.codProf = codProf;
+            this.codDepto = codDepto;
+        }
+    }
+    // ... otros modelos ...
+}
+
+22. Instanciar DBHelper en cualquier Activity
+
+DBHelper dbHelper = new DBHelper(this, getDatabasePath("importada.db").getAbsolutePath());
+
+23. Plantilla para Activity nueva que consulta datos
+
+public class ConsultarActivity extends AppCompatActivity {
+    private DBHelper dbHelper;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_consultar);
+        dbHelper = new DBHelper(this, getDatabasePath("importada.db").getAbsolutePath());
+        // ... lógica de consulta ...
+    }
+}
+
+24. Plantilla para agregar datos
+
+
+DBHelper.Cliente nuevo = new DBHelper.Cliente(1234, "Juan Perez", 2, 4);
+dbHelper.agregarCliente(nuevo);
+
+25. Recomendaciones finales
+
+- Mantén tus queries y modelos en el DBHelper.
+- Cada Activity debe instanciar su propio DBHelper.
+- Usa funciones para mostrar mensajes y limpiar campos.
+- Valida siempre los datos antes de consultar o insertar.
+- Guarda este manual y amplíalo con tus propios bloques.

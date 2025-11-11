@@ -1,0 +1,59 @@
+Ejercicio: "Consulta y búsqueda de conductores desde una página web usando Android"
+Objetivo:
+Crear una aplicación Android que:
+  • Consuma un archivo JSON desde la URL https://clasespersonales.com/taxis/listacon.php
+  • Muestre los datos de los conductores en una tabla con scroll vertical y horizontal
+  • Permita buscar por "carnet" y mostrar los datos individuales encontrados
+Pasos del ejercicio
+  A. Estructura de archivo y acceso web
+    1.  En el archivo AndroidManifest.xml:
+      • Agrega el permiso de internet:
+        <uses-permission android:name="android.permission.INTERNET"/>
+      • Agrega la referencia de seguridad para permitir HTTP (no HTTPS):
+        android:networkSecurityConfig="@xml/network_security_config"
+      • Ejemplo de bloque:
+        <application
+            android:networkSecurityConfig="@xml/network_security_config"
+            ...>
+            ...
+        </application>
+    2.  Crea el archivo network_security_config.xml en res/xml/:
+      <?xml version="1.0" encoding="utf-8"?>
+      <network-security-config>
+          <domain-config cleartextTrafficPermitted="true">
+              <domain includeSubdomains="true">clasespersonales.com</domain>
+          </domain-config>
+      </network-security-config>
+      • Esto habilita el acceso a la página web por HTTP desde Android 9+.
+  B. Layout de la app
+    • Usa un layout con un campo de búsqueda (EditText), botón (Button) y una tabla (TableLayout) 
+      en scroll vertical y horizontal.
+    • Ejemplo básico ya listo en mensajes anteriores.
+  C. Código de la actividad principal
+    • Utiliza AsyncTask (o el mecanismo moderno Coroutine si usas Kotlin) para consultar la web y 
+      recibir el JSON.
+    • Procesa el resultado usando las clases estándar de JSON (JSONObject, JSONArray).
+    • Llena la tabla de resultados dinámicamente: cada fila con carnet, paterno, materno, nombres.
+    • Agrega la función de búsqueda por carnet, mostrando solo el registro correspondiente.
+  D. Funcionalidad
+    • Al iniciar la app se muestra la lista completa de conductores.
+    • Si el usuario ingresa un carnet y presiona "buscar", solo se muestra el conductor filtrado.
+    • Si no existe ese carnet, indica "No encontrado".
+  E. Página de datos
+    • Los datos provienen de:
+      https://clasespersonales.com/taxis/listacon.php
+    • El formato recibido es:
+      {
+        "conductores": [
+          {
+            "carnet": "XXXX",
+            "paterno": "XXX",
+            "materno": "XXX",
+            "nombres": "XXX"
+          },
+          ...
+        ],
+        "exito": 1
+      }
+
+   

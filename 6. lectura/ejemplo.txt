@@ -1,0 +1,9 @@
+XYZ1. TITULO
+YYY1.1. SUBTITULO DEL TITULO 1
+aca
+ eL
+ 	contenido
+XYZ2. TITULO 2
+YYY2.1. SUTITULO DEL TITULO 2
+este es el contenido 
+del subtitulo dos

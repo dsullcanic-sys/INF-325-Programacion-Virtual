@@ -1,0 +1,79 @@
+¡Claro\! Quieres una lista de pasos concisa y directa para cambiar la visualización de tabla a un gráfico estadístico en Android Studio, usando la librería **MPAndroidChart**.
+
+Asumiendo que ya tienes tu lógica de carga de archivos y procesamiento de datos funcionando, los pasos principales son:
+
+## 📊 Pasos para Integrar un Gráfico Estadístico (MPAndroidChart)
+
+-----
+
+### 1\. Configuración de Gradle (El Elefante Azul)
+
+Debes indicarle a Gradle dónde buscar la librería y luego declararla en tu módulo.
+
+1.  **Añadir Repositorio (Archivo `settings.gradle.kts`):** Abre este archivo (el del proyecto) y añade el repositorio **JitPack** dentro del bloque `dependencyResolutionManagement`:
+    ```kotlin
+    dependencyResolutionManagement {
+        // ...
+        repositories {
+            google()
+            mavenCentral()
+            maven { url = uri("https://jitpack.io") } // <-- ¡AÑADIR ESTA LÍNEA!
+        }
+    }
+    ```
+2.  **Declarar Dependencia (Archivo `build.gradle.kts` - Module: app):** Abre este archivo y añade la librería MPAndroidChart dentro del bloque `dependencies { ... }`:
+    ```kotlin
+    dependencies {
+        // ...
+        implementation("com.github.PhilJay:MPAndroidChart:v3.1.0") // <-- ¡AÑADIR ESTA LÍNEA!
+    }
+    ```
+3.  **Sincronizar:** Haz clic en el botón **"Sync Now"** (el ícono del elefante azul) para descargar la librería.
+
+-----
+
+### 2\. Modificación del Layout (Archivo `activity_main.xml`)
+
+Debes reemplazar el componente de tabla (`TableLayout`) por el componente de gráfico (`BarChart`).
+
+1.  **Reemplazar el Componente:** Elimina la etiqueta `<HorizontalScrollView>` que contenía el `TableLayout`.
+2.  **Añadir el `BarChart`:** En su lugar, inserta la etiqueta del gráfico (usando el ID `barChartReporte` para que coincida con el código Kotlin):
+    ```xml
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barChartReporte"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="16dp"/>
+    ```
+
+-----
+
+### 3\. Actualización del Código Kotlin (Archivo `MainActivity.kt`)
+
+Debes cambiar las referencias a la tabla y crear la lógica de visualización del gráfico.
+
+1.  **Importar Clases:** Añade las importaciones necesarias de la librería al inicio del archivo:
+    ```kotlin
+    import com.github.mikephil.charting.charts.BarChart
+    import com.github.mikephil.charting.data.BarData
+    import com.github.mikephil.charting.data.BarDataSet
+    import com.github.mikephil.charting.data.BarEntry
+    import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+    ```
+2.  **Actualizar Variables:** Cambia la declaración de la tabla por el gráfico:
+    ```kotlin
+    // Antes: private lateinit var tabla: TableLayout
+    private lateinit var barChart: BarChart
+    ```
+3.  **Inicializar:** En `onCreate()`, inicializa el nuevo componente:
+    ```kotlin
+    // Antes: tabla = findViewById(R.id.tabla)
+    barChart = findViewById(R.id.barChartReporte)
+    ```
+4.  **Reemplazar Lógica de Visualización:** Reemplaza tu función que creaba filas y columnas (`mostrar` o similar) por una nueva función que formatee los datos y se los asigne al `BarChart` (como la función `mostrarGraficoAnual` que te proporcioné anteriormente). Esta función se encarga de:
+      * Convertir tus datos (`aprobados`, `reprobados`) en objetos **`BarEntry`**.
+      * Crear un **`BarDataSet`** con esas entradas.
+      * Crear un **`BarData`** con el *DataSet*.
+      * Asignar los datos al objeto `barChart` (`barChart.data = data`).
+      * Configurar el formato del **Eje X** (`barChart.xAxis.valueFormatter`).
+      * Llamar a `barChart.invalidate()` para dibujarlo.

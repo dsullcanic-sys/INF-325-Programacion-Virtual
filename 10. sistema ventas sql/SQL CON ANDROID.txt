@@ -1,0 +1,112 @@
+¡Perfecto! Haré un **ejemplo simple en Java usando SQLite puro**, así dominamos el acceso directo a la base de datos y consultas eficientes desde cero. El flujo será:
+
+1. **Botón para cargar archivo CSV** (puedes simular la selección, luego lees y procesas línea por línea).
+2. **Insertar cada línea en la base de datos SQLite, sin cargar todo en memoria.**
+3. **TableLayout** para mostrar un resumen de los datos (por ejemplo, primeras filas o resultados de una consulta).
+4. **Gráfico de barras** simple (usando alguna librería liviana, como MPAndroidChart, para la sumatoria por cuenta o fecha).
+
+***
+
+### 1. Definición de la tabla Movimientos en SQLite
+
+```java
+db.execSQL(
+    "CREATE TABLE IF NOT EXISTS Movimientos (" +
+    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+    "cuenta TEXT NOT NULL, " +
+    "monto INTEGER NOT NULL, " +
+    "fecha TEXT NOT NULL)"
+);
+// Índice recomendado para consultas rápidas:
+db.execSQL("CREATE INDEX IF NOT EXISTS idx_cuenta ON Movimientos(cuenta)");
+```
+
+***
+
+### 2. Importar el archivo CSV
+
+```java
+// Asumiendo que tienes el path del archivo...
+BufferedReader reader = new BufferedReader(new FileReader(csvPath));
+String line;
+db.beginTransaction();
+try {
+    while ((line = reader.readLine()) != null) {
+        String[] parts = line.split(";");
+        if (parts.length == 3) {
+            ContentValues values = new ContentValues();
+            values.put("cuenta", parts[0]);
+            values.put("monto", Integer.parseInt(parts[1]));
+            values.put("fecha", parts[2]);
+            db.insert("Movimientos", null, values);
+        }
+    }
+    db.setTransactionSuccessful();
+} finally {
+    db.endTransaction();
+    reader.close();
+}
+```
+**Esto procesa cada línea individualmente, SIN cargar todo en memoria.**
+
+***
+
+### 3. Mostrar datos en TableLayout
+
+```java
+TableLayout tableLayout = findViewById(R.id.tableLayout);
+Cursor cursor = db.rawQuery("SELECT cuenta, monto, fecha FROM Movimientos LIMIT 30", null);
+while(cursor.moveToNext()) {
+    TableRow row = new TableRow(this);
+    for (int i = 0; i < cursor.getColumnCount(); i++) {
+        TextView tv = new TextView(this);
+        tv.setText(cursor.getString(i));
+        row.addView(tv);
+    }
+    tableLayout.addView(row);
+}
+cursor.close();
+```
+
+***
+
+### 4. Gráfico de barras (sumatoria por cuenta, usando MPAndroidChart)
+
+- Añade la dependencia en tu `build.gradle`:
+  ```groovy
+  implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+  ```
+
+- Consulta sumatoria de montos por cuenta:
+  ```java
+  Cursor cursor = db.rawQuery(
+      "SELECT cuenta, SUM(monto) as total FROM Movimientos GROUP BY cuenta LIMIT 7", null);
+
+  ArrayList<BarEntry> entries = new ArrayList<>();
+  ArrayList<String> labels = new ArrayList<>();
+  int i = 0;
+  while(cursor.moveToNext()) {
+      entries.add(new BarEntry(i, cursor.getInt(cursor.getColumnIndex("total"))));
+      labels.add(cursor.getString(cursor.getColumnIndex("cuenta")));
+      i++;
+  }
+  cursor.close();
+
+  BarDataSet dataSet = new BarDataSet(entries, "Montos por cuenta");
+  BarData barData = new BarData(dataSet);
+  BarChart chart = findViewById(R.id.barChart);
+  chart.setData(barData);
+  chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+  chart.invalidate();
+  ```
+
+***
+
+### Resumen de ventajas
+
+- **No cargas el archivo completo en memoria, procesas línea por línea**.
+- **SQLite maneja millones de registros sin problema** si usas índices y consultas eficientes.
+- **Las tablas y el gráfico consultan directamente de la base**, no de datos en memoria.
+- **Escalable para volúmenes mayores**: basta con aplicar paginación (`LIMIT`, `OFFSET`).
+
+¿Quieres el código completo en Activity con layouts, o prefieres ir por partes?

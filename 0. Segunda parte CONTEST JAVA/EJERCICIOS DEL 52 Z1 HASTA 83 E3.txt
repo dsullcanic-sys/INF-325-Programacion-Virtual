@@ -1,0 +1,383 @@
+///////// 52 Z1   TRABAJO CON CADENAS ////////
+
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		int nro_casos = scanner.nextInt();
+		String entrada;
+		for(int i=0; i<=nro_casos;i++) {
+		    entrada = scanner.nextLine();
+		    if(entrada.length()>0) {
+		    	String salida = procesarCadena(entrada);
+		        System.out.println(salida);
+		    }			
+		}
+	}
+	public static String procesarCadena(String entrada) {
+        StringBuilder resultado = new StringBuilder();
+        String vocales = "AEIOUaeiou";
+
+        for (char caracter : entrada.toCharArray()) {
+            if (vocales.indexOf(caracter) == -1) {
+                if (Character.isUpperCase(caracter)) {
+                    caracter = Character.toLowerCase(caracter);
+                }
+                resultado.append(".").append(caracter);
+            }
+        }
+        return resultado.toString();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+/////////////////// 54 B2   EL OSO MAS PESADO/////////////////////
+
+
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		int A;
+	    int B;
+	    do {
+	    	A = scanner.nextInt();
+		    B = scanner.nextInt();
+	    }while(A>B && A>=10 && B>=10);
+	    
+	    int cont =0;
+	    while(A<=B) {
+	    	if(A<=B) {
+	    		A = A*3;
+	    		B= B*2;
+	    		cont++;
+	    	}
+	    }
+	    if(cont >0) {
+	    	System.out.println(cont);	
+	    }
+	    
+	}
+}
+
+
+
+
+
+
+/////////////////// 55 C2 LOS PASOS DE MONCHITO
+
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		int num = scanner.nextInt();
+		int cont=0;
+		while(num >=5) {
+			num = num-5;
+			cont++;
+		}if(num !=0) cont++;
+		System.out.println(cont);
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+////////////////////// 56 D2 COMPRANDO PALTAS
+
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		int k = scanner.nextInt();
+		int n = scanner.nextInt();
+		int w = scanner.nextInt();
+		int sum =0;
+		int debe_pagar=0;
+		for(int i =1; i<=w;i++) {
+			debe_pagar = i*k;
+			sum = sum+debe_pagar;
+		}
+		if(n < sum) System.out.println(sum-n);		
+	}
+	
+}
+
+
+
+
+
+
+
+
+/////////////////////////////57 E2 PALABRAS /////////////////////////////
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		int k = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        for (int i = 0; i < k; i++) {
+            String word = scanner.nextLine();
+            int upperCaseCount = 0;
+            for (char c : word.toCharArray()) {
+                if (Character.isUpperCase(c)) {
+                    upperCaseCount++;
+                }
+            }
+
+            if (upperCaseCount > word.length() - upperCaseCount) {
+                System.out.println(word.toUpperCase());
+            } else {
+                System.out.println(word.toLowerCase());
+            }
+        }
+        scanner.close();
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////// 60 H2 FUTBOL //////////////////
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		String entrada = scanner.nextLine(); // 1
+        scanner.close(); // 1
+
+        boolean peligroso = verificarPeligro(entrada); // 1
+
+        if (peligroso) {
+            System.out.println("SI"); // 1
+        } else {
+            System.out.println("NO"); // 1
+        }
+	}
+	
+	public static boolean verificarPeligro(String situacion) {
+        if (situacion == null || situacion.length() < 7) {
+            return false; // 1
+        }
+
+        int contadorConsecutivos = 1; // 1
+        char jugadorActual = situacion.charAt(0); // 1
+
+        for (int i = 1; i < situacion.length(); i++) { // 1
+            if (situacion.charAt(i) == jugadorActual) { // 1
+                contadorConsecutivos++; // 1
+            } else {
+                jugadorActual = situacion.charAt(i); // 1
+                contadorConsecutivos = 1; // 1
+            }
+
+            if (contadorConsecutivos >= 7) {
+                return true; // 1
+            }
+        }
+
+        return false; // 1
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////// 62 J2 RESULTADO DE PARTIDAS ///////////////
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		int N = scanner.nextInt();
+		String S = scanner.next();
+		int contM=0;
+		int contD=0;
+		for(int i =0; i<S.length(); i++) {
+			if(S.charAt(i)=='M') { contM++;}
+			else if(S.charAt(i)=='D') { contD++;}
+		}if(contM>contD) {
+			System.out.print(contM-contD);
+			System.out.println('M');
+		}else if(contD>contM) {
+			System.out.print(contD-contM);
+			System.out.println('D');
+		}else if(contD==contM) System.out.println("Amistoso");
+	}
+}
+
+
+
+
+
+
+
+
+///////////////////////////68 P2  SALUDO A LA RAPIDA  /////////////////
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		String S = scanner.next();
+		int swH=0;
+		int swO=0;
+		int swL=0;
+		int swA=0;
+		
+		int cont=0;
+		String saludo ="";
+		for(int i=0;i<S.length(); i++) {
+			if(S.charAt(i)=='h' && swH==0 &&cont==0) {
+				saludo = saludo+"h";
+				swH++; cont++;
+			}else if(S.charAt(i)=='o' && swO==0 &&cont==1) {
+				saludo = saludo+"o";
+				swO++; cont++;
+			}else if(S.charAt(i)=='l' && swL==0 &&cont==2) {
+				saludo = saludo+"l";
+				swL++; cont++;
+			}else if(S.charAt(i)=='a' && swA==0 &&cont==3) {
+				saludo = saludo+"a";
+				swA++; cont++;
+			}
+		}
+		if(saludo.equals("hola") && cont==4) System.out.println("SI");
+		else System.out.println("NO");
+	}
+}
+
+
+///////////////////// 63 K2 TRADUCCION AL REVERSO  ////////////////////////
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		String s = scanner.nextLine();
+        String t = scanner.nextLine();
+        scanner.close();
+
+        if (esInversa(s, t)) {
+            System.out.println("SI");
+        } else {
+            System.out.println("NO");
+        }
+	}
+	public static boolean esInversa(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+        int n = s.length();
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) != t.charAt(n - 1 - i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
