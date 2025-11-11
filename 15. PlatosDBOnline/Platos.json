@@ -3,132 +3,132 @@
     {
       "nombre": "Charquekan",
       "precio": 35,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p01.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p01.jpeg"
     },
     {
       "nombre": "Papas a la Huancaina",
       "precio": 20,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p02.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p02.jpeg"
     },
     {
       "nombre": "Majadito",
       "precio": 25,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p03.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p03.jpeg"
     },
     {
       "nombre": "Pique Macho",
       "precio": 40,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p04.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p04.jpeg"
     },
     {
       "nombre": "Hamburguesa",
       "precio": 18,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p05.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p05.jpeg"
     },
     {
       "nombre": "Silpancho",
       "precio": 28,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p06.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p06.jpeg"
     },
     {
       "nombre": "Plato Paceño",
       "precio": 30,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p07.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p07.jpeg"
     },
     {
       "nombre": "Sajta",
       "precio": 27,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p08.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p08.jpeg"
     },
     {
       "nombre": "Milanesa de Pollo",
       "precio": 32,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p09.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p09.jpeg"
     },
     {
       "nombre": "Ramen",
       "precio": 45,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p10.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p10.jpeg"
     },
     {
       "nombre": "Pollo al Horno",
       "precio": 33,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p11.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p11.jpeg"
     },
     {
       "nombre": "Salchipapa",
       "precio": 15,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p12.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p12.jpeg"
     },
     {
       "nombre": "Calamar",
       "precio": 60,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p13.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p13.jpeg"
     },
     {
       "nombre": "Chicharon de Pollo",
       "precio": 28,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p14.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p14.jpeg"
     },
     {
       "nombre": "Asado",
       "precio": 55,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p15.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p15.jpeg"
     },
     {
       "nombre": "Chicharon de Cerdo",
       "precio": 40,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p16.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p16.jpeg"
     },
     {
       "nombre": "Ispi",
       "precio": 22,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p17.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p17.jpeg"
     },
     {
       "nombre": "Chairo",
       "precio": 18,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p18.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p18.jpeg"
     },
     {
       "nombre": "Pure de Papa",
       "precio": 12,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p19.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p19.jpeg"
     },
     {
       "nombre": "Aji de Fideo",
       "precio": 20,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p20.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p20.jpeg"
     },
     {
       "nombre": "Sushi 1",
       "precio": 55,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p21.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p21.jpeg"
     },
     {
       "nombre": "Sushi 2",
       "precio": 75,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p22.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p22.jpeg"
     },
     {
       "nombre": "Aji de Racacha",
       "precio": 15,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p23.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p23.jpeg"
     },
     {
       "nombre": "Biffe",
       "precio": 45,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p24.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p24.jpeg"
     },
     {
       "nombre": "Salmon",
       "precio": 70,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p25.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p25.jpeg"
     },
     {
       "nombre": "Silpancho Cochabambino",
       "precio": 35,
-      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/main/PlatosDBOnline/Platos/p26.jpeg"
+      "imagen": "https://raw.githubusercontent.com/dsullcanic-sys/INF-325-Programacion-Virtual/refs/heads/main/15.%20PlatosDBOnline/p26.jpeg"
     }
   ]
 }
