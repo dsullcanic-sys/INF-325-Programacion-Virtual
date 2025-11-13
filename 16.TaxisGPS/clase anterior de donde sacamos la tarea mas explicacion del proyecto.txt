@@ -1,0 +1,62 @@
+TAREA DEL CURSO:
+
+en un proyecto con java en Narwhal con API 24 para android 10+
+ubicacion
+latitud: XXXXXXXXXX
+longitud: YYYYYYYYY
+
+Direccion: ZZZZZZZZZ aprox
+
+se puede hacer con una API de google o con Street View
+
+seteamos nusetra direccion en ADB
+
+.\adb emu geo fix -68.1297166 -16.5049224   
+
+PARA EL 12 DEL 10 DEL 2025
+
+usar los datos de:
+
+	https://clasespersonales.com/taxis/
+
+que tiene los siguientes datos:
+
+REPORTE DE TAXISTAS
+    MÓVIL	    CARNET    	LATITUD	LONGITUD
+    103   	    6144341	-16.46661	-68.27875
+    107   	    6869689	-16.53291	-68.11709
+    115   	    6764063	-16.50833	-68.19183
+    119   	    6095371	-16.52914	-68.20723
+    121   	    2622011	-16.49427	-68.20360
+    125   	    6765608	-16.47340	-68.17247
+    129   	    4312014	-16.52517	-68.12460
+    135   	    4856270	-16.52189	-68.13105
+    137   	    6833022	-16.49154	-68.15433
+    139   	    6824136	-16.51585	-68.21861
+    145   	    6888435	-16.48322	-68.14414
+    147   	    6837306	-16.50383	-68.14883
+    153   	    4837464	-16.48358	-68.25933
+    171   	    6765381	-16.51146	-68.19614
+    175   	    6150980	-16.48466	-68.14350
+    177   	    6745690	-16.50221	-68.25589
+    181   	    4875775	-16.53618	-68.24879
+TAREA:
+para el miercoles con nuestra ubicacion mostrar los 3 mas cercanos
+y mostrar tambien el resto
+mostrar los 3 mas cercanos con un asterisco y mostrar arriba y los 
+demas abajo
+
+con la ecuacion de distancia entre 2 puntos
+habra que sacar la distancia entre cada uno de los taxis 
+y mostrar los menores claro
+
+INVESTIGACION:
+incluso ver la ruta mas cercana
+
+1 DE DICIEMBRE TRABAJO FINAL
+en un CD 
+
+3 DE DICIEMBRE EXAMEN finally
+
+
+8 DE DICIEMBRE RECUPERATORIO SI NO HICIERON UN EXAMEN
